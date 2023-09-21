@@ -18,6 +18,7 @@ def mocked_local_data():
     }
     return mock
 
+
 def mocked_local_data_invalid_format():
     mock = Mock()
     mock.return_value = {
@@ -27,10 +28,11 @@ def mocked_local_data_invalid_format():
     }
 
 
-
 class TestLocal(TestBaseCase):
-
-    @patch("task.connectors.local.local_currency_data_provider.read_json_file", side_effect=mocked_local_data())
+    @patch(
+        "task.connectors.local.local_currency_data_provider.read_json_file",
+        side_effect=mocked_local_data(),
+    )
     def test_load_local_newest_currency_data(self, mock):
         local_currency_data_provider = LocalCurrencyDataProvider()
         data = local_currency_data_provider.fetch_currencies_data()
@@ -48,16 +50,20 @@ class TestLocal(TestBaseCase):
             ),
         ]
         self.assertEqual(data, expected_data)
-    
-    @patch("task.connectors.local.local_currency_data_provider.LOCAL_SOURCE_PATH", "xxxxx")
+
+    @patch(
+        "task.connectors.local.local_currency_data_provider.LOCAL_SOURCE_PATH", "xxxxx"
+    )
     def test_load_local_currency_data_with_missing_file(self):
         local_currency_data_provider = LocalCurrencyDataProvider()
         data = local_currency_data_provider.fetch_currencies_data()
         expected_data = []
         self.assertEqual(data, expected_data)
-    
 
-    @patch("task.connectors.local.local_currency_data_provider.read_json_file", side_effect=mocked_local_data_invalid_format())
+    @patch(
+        "task.connectors.local.local_currency_data_provider.read_json_file",
+        side_effect=mocked_local_data_invalid_format(),
+    )
     def test_load_local_currency_data_with_invalid_format(self, mock):
         local_currency_data_provider = LocalCurrencyDataProvider()
         data = local_currency_data_provider.fetch_currencies_data()

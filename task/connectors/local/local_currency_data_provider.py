@@ -7,13 +7,13 @@ from task.config import LOCAL_SOURCE_PATH
 
 class LocalCurrencyDataProvider(CurrencyDataProvider):
     def _find_currency_data(self, currency: str) -> Optional[CurrencyData]:
-        if currency not in self.valid_currencies:
+        if currency not in self._valid_currencies:
             return None
 
         return next(
             filter(
                 lambda currency_data: currency_data.currency == currency,
-                self.currencies_data,
+                self._currencies_data,
             )
         )
 
@@ -32,21 +32,21 @@ class LocalCurrencyDataProvider(CurrencyDataProvider):
             try:
                 for currency_rate in currency_rates:
                     if (
-                        currency in self.valid_currencies
+                        currency in self._valid_currencies
                         and not self._is_newest_currency_rate(
                             currency, currency_rate["date"]
                         )
                     ):
                         continue
 
-                    self.currencies_data.append(
+                    self._currencies_data.append(
                         CurrencyData(
                             currency=currency,
                             currency_rate=currency_rate["rate"],
                             currency_rate_fetch_date=currency_rate["date"],
                         )
                     )
-                    self.valid_currencies.add(currency)
+                    self._valid_currencies.add(currency)
             except KeyError as e:
                 logging.error(f"Invalid data format: {e}")
 
@@ -55,4 +55,4 @@ class LocalCurrencyDataProvider(CurrencyDataProvider):
         if raw_data:
             self._parse_data(raw_data)
 
-        return self.currencies_data
+        return self._currencies_data

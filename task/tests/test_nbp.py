@@ -20,6 +20,7 @@ def mocked_get_table_a():
     ]
     return mock_response
 
+
 def mocked_get_table_a_invalid_format():
     mock_response = Mock()
     mock_response.json.return_value = [
@@ -29,6 +30,7 @@ def mocked_get_table_a_invalid_format():
         }
     ]
     return mock_response
+
 
 class TestNBP(TestBaseCase):
     @patch("requests.get", return_value=mocked_get_table_a())

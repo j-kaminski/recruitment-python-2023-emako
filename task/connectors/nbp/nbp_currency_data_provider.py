@@ -9,7 +9,7 @@ class NBPCurrencyDataProvider(CurrencyDataProvider):
             data = data[0]
             date = data["effectiveDate"]
             for rate in data["rates"]:
-                self.currencies_data.append(
+                self._currencies_data.append(
                     CurrencyData(
                         currency=rate["code"],
                         currency_rate=rate["mid"],
@@ -24,4 +24,4 @@ class NBPCurrencyDataProvider(CurrencyDataProvider):
         if raw_data:
             self._parse_data(raw_data)
 
-        return self.currencies_data
+        return self._currencies_data
