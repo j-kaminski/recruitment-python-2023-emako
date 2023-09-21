@@ -1,7 +1,7 @@
 # File Database
 JSON_DATABASE_NAME = "database.json"
 # SQLITE Database
-SQLITE_DATABASE_NAME = "database.db"
+SQLITE_DATABASE_NAME = "database.sqlite3"
 
 
 # NBP
