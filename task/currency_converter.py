@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from .connectors.currency_data_provider import CurrencyData
+from .connectors.currency_data_provider import CurrencyData, CurrencyDataProvider
 
 
 @dataclass(frozen=True)
@@ -12,14 +12,20 @@ class ConvertedPricePLN:
 
 
 class PriceCurrencyConverterToPLN:
+    def __init__(self, currency_data_provider: CurrencyDataProvider):
+        self._currency_data_provider = currency_data_provider
 
-    def convert_to_pln(
-        self, currency_data: CurrencyData, price: float
-    ) -> ConvertedPricePLN:
+    def convert_to_pln(self, currency: str, price: float) -> ConvertedPricePLN:
+        if not self._currency_data_provider.validate_currency(currency, price):
+            return None
+
+        currency_data = self._currency_data_provider.currency_data(currency)
+        price_in_pln = price * currency_data.currency_rate
+
         return ConvertedPricePLN(
             price_in_source_currency=price,
-            currency=currency_data.currency,
+            currency=currency,
             currency_rate=currency_data.currency_rate,
             currency_rate_fetch_date=currency_data.currency_rate_fetch_date,
-            price_in_pln=price * currency_data.currency_rate,
+            price_in_pln=price_in_pln,
         )

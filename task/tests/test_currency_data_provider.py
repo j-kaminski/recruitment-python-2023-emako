@@ -1,19 +1,10 @@
-from task.connectors.currency_data_provider import CurrencyDataProvider
 from .base import TestBaseCase
-
-
-class DummyCurrencyDataProvider(CurrencyDataProvider):
-    def _parse_data(self, _):
-        pass
-
-    def fetch_currencies_data(self):
-        pass
+from .dummy_data_provider import DummyCurrencyDataProvider
 
 
 class TestCurrencyDataProvider(TestBaseCase):
     def setUp(self):
         self.currency_data_provider = DummyCurrencyDataProvider()
-        self.currency_data_provider.valid_currencies.add("EUR")
 
     def test_valid_currency(self):
         currency = "EUR"
