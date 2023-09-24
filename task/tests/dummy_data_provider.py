@@ -4,7 +4,7 @@ from task.connectors.currency_data_provider import CurrencyDataProvider, Currenc
 class DummyCurrencyDataProvider(CurrencyDataProvider):
     def __init__(self) -> None:
         super().__init__()
-        self._valid_currencies = {"EUR"}
+        self._valid_currencies = {"eur"}
 
     def _parse_data(self, _):
         pass

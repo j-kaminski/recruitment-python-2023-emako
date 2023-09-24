@@ -6,6 +6,7 @@ from task.connectors.currency_data_provider import CurrencyData
 
 def mocked_get_table_a():
     mock_response = Mock()
+    mock_response.status_code = 200
     mock_response.json.return_value = [
         {
             "table": "A",
@@ -23,12 +24,18 @@ def mocked_get_table_a():
 
 def mocked_get_table_a_invalid_format():
     mock_response = Mock()
+    mock_response.status_code = 200
     mock_response.json.return_value = [
         {
             "table": "A",
             "no": "181/A/NBP/2023",
         }
     ]
+    return mock_response
+
+def mocked_get_table_a_error_status_code():
+    mock_response = Mock()
+    mock_response.status_code = 400
     return mock_response
 
 

@@ -1,4 +1,4 @@
-import logging
+from task.logger import LOGGER
 from task.connectors.currency_data_provider import CurrencyData, CurrencyDataProvider
 from .endpoints import get_table_rate
 
@@ -16,8 +16,9 @@ class NBPCurrencyDataProvider(CurrencyDataProvider):
                         currency_rate_fetch_date=date,
                     )
                 )
+                self._valid_currencies.add(rate["code"].lower())
         except KeyError as e:
-            logging.error(f"Invalid data format: {e}")
+            LOGGER.error(f"Invalid data format: {e} on payload {data}")
 
     def fetch_currencies_data(self) -> list[CurrencyData]:
         raw_data = get_table_rate()

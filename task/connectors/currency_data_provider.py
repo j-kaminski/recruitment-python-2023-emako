@@ -11,6 +11,9 @@ class CurrencyData:
     currency_rate: str
     currency_rate_fetch_date: str
 
+    def __post_init__(self):
+        object.__setattr__(self, "currency", self.currency.lower())
+
     def __str__(self):
         return f"{self.currency} {self.currency_rate} {self.currency_rate_fetch_date}"
 
@@ -29,18 +32,10 @@ class CurrencyDataProvider(ABC):
         pass
 
     def currency_data(self, currency: str) -> CurrencyData:
+        currency = currency.lower()
         if currency in self._valid_currencies:
             for currency_data in self._currencies_data:
                 if currency_data.currency == currency:
                     return currency_data
 
         return None
-
-    def validate_currency(self, currency: str, value: float) -> bool:
-        if not isinstance(currency, str) or currency not in self._valid_currencies:
-            return False
-
-        if not isinstance(value, (int, float)) or value <= 0:
-            return False
-
-        return True

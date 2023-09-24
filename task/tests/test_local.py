@@ -39,7 +39,7 @@ class TestLocal(TestBaseCase):
         mock.assert_called_once()
         expected_data = [
             CurrencyData(
-                currency="EUR",
+                currency="eur",
                 currency_rate=4.15,
                 currency_rate_fetch_date="2023-09-01",
             ),

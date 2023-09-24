@@ -16,5 +16,5 @@ class DatabaseConnector(ABC):
         pass
 
     @abstractmethod
-    def get_by_id(self) -> CurrencyConversionPLN: 
+    def get_by_id(self) -> CurrencyConversionPLN:
         pass
