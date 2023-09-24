@@ -1,12 +1,13 @@
-import logging
 from typing import Optional
 from task.connectors.currency_data_provider import CurrencyDataProvider, CurrencyData
 from task.connectors.common import read_json_file
 from task.config import LOCAL_SOURCE_PATH
+from task.logger import LOGGER
 
 
 class LocalCurrencyDataProvider(CurrencyDataProvider):
     def _find_currency_data(self, currency: str) -> Optional[CurrencyData]:
+        currency = currency.lower()
         if currency not in self._valid_currencies:
             return None
 
@@ -29,6 +30,7 @@ class LocalCurrencyDataProvider(CurrencyDataProvider):
 
     def _parse_data(self, data: dict) -> None:
         for currency, currency_rates in data.items():
+            currency = currency.lower()
             try:
                 for currency_rate in currency_rates:
                     if (
@@ -48,11 +50,13 @@ class LocalCurrencyDataProvider(CurrencyDataProvider):
                     )
                     self._valid_currencies.add(currency)
             except KeyError as e:
-                logging.error(f"Invalid data format: {e}")
+                LOGGER.error(f"Invalid data format: {e}")
 
     def fetch_currencies_data(self) -> list[CurrencyData]:
         raw_data = read_json_file(LOCAL_SOURCE_PATH)
         if raw_data:
             self._parse_data(raw_data)
+
+        LOGGER.info(f"Fetched data from {LOCAL_SOURCE_PATH}")
 
         return self._currencies_data

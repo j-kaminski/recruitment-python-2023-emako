@@ -1,11 +1,12 @@
-import logging
+from task.logger import LOGGER
 from unittest import TestCase
+from unittest.mock import patch
 
 
 class TestBaseCase(TestCase):
     def setUp(self):
-        logging.disable(logging.CRITICAL)
+        LOGGER.disabled = True
         self.maxDiff = None
 
     def tearDown(self):
-        logging.disable(logging.NOTSET)
+        LOGGER.disabled = False

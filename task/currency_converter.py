@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from .connectors.currency_data_provider import CurrencyData, CurrencyDataProvider
+from task.logger import LOGGER
+from .connectors.currency_data_provider import CurrencyDataProvider
 
 
 @dataclass(frozen=True)
@@ -16,11 +17,15 @@ class PriceCurrencyConverterToPLN:
         self._currency_data_provider = currency_data_provider
 
     def convert_to_pln(self, currency: str, price: float) -> ConvertedPricePLN:
-        if not self._currency_data_provider.validate_currency(currency, price):
+        currency_data = self._currency_data_provider.currency_data(currency)
+
+        if currency_data is None:
             return None
 
-        currency_data = self._currency_data_provider.currency_data(currency)
         price_in_pln = price * currency_data.currency_rate
+        LOGGER.info(
+            f"Converted price from {currency.upper()} to PLN: {price} {currency} -> {price_in_pln} PLN"
+        )
 
         return ConvertedPricePLN(
             price_in_source_currency=price,
