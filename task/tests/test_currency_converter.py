@@ -1,8 +1,7 @@
-from .base import TestBaseCase
-from task.currency_converter import PriceCurrencyConverterToPLN, ConvertedPricePLN
 from task.connectors.currency_data_provider import CurrencyData
-from task.connectors.local.local_currency_data_provider import LocalCurrencyDataProvider
-from task.connectors.nbp.nbp_currency_data_provider import NBPCurrencyDataProvider
+from task.currency_converter import ConvertedPricePLN, PriceCurrencyConverterToPLN
+
+from .base import TestBaseCase
 from .dummy_data_provider import DummyCurrencyDataProvider
 
 

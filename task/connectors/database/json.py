@@ -1,17 +1,18 @@
-import os
 import json
+import os
 
-from task.logger import LOGGER
-from ...config import JSON_DATABASE_NAME
 from task.connectors.common import read_json_file
 from task.connectors.database.base import DatabaseConnector
+from task.logger import LOGGER
+
+from ...config import JSON_DATABASE_NAME
 from .models import CurrencyConversionPLN
 
 
 class JsonFileDatabaseConnector(DatabaseConnector):
     def __init__(self) -> None:
         if not os.path.exists(JSON_DATABASE_NAME):
-            with open(JSON_DATABASE_NAME, "w") as file:
+            with open(JSON_DATABASE_NAME, "w", encoding="utf-8") as file:
                 file.write("{}")
             LOGGER.info(f"Created new database file: {JSON_DATABASE_NAME}")
             self._data: dict[CurrencyConversionPLN] = {}
@@ -27,7 +28,14 @@ class JsonFileDatabaseConnector(DatabaseConnector):
     def _generate_id(self) -> int:
         if not self._data:
             return 1
-        return max([int(key) for key in self._data.keys()]) + 1
+
+        all_ids = [int(key) for key in self._data.keys()]
+        highest_id = max(all_ids)
+
+        if len(all_ids) != highest_id:
+            return min(set(range(1, highest_id)) - set(all_ids))
+
+        return highest_id + 1
 
     def save(self, entity: CurrencyConversionPLN) -> int:
         if entity.id in self._data:
@@ -37,9 +45,11 @@ class JsonFileDatabaseConnector(DatabaseConnector):
 
         with open(JSON_DATABASE_NAME, "w") as file:
             self._data.update({entity.id: entity})
-            dict_data = {key: value.to_dict() for key, value in self._data.items()}
+            sorted_keys = sorted(self._data.keys(), key=lambda x: int(x))
+            dict_data = {key: self._data[key].to_dict() for key in sorted_keys}
+
             file.write(json.dumps(dict_data, indent=4))
-        
+
         LOGGER.info(f"Entity saved: {entity}")
 
         return entity.id

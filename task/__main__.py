@@ -1,11 +1,14 @@
 import sys
-from .logger import LOGGER
-from .currency_converter import PriceCurrencyConverterToPLN
-from .connectors.local.local_currency_data_provider import LocalCurrencyDataProvider
-from .connectors.nbp.nbp_currency_data_provider import NBPCurrencyDataProvider
-from .connectors.database.sqlite_connector import SQLiteDatabaseConnector
+
+from .connectors.currency_data_provider import CurrencyDataProvider
+from .connectors.database.base import DatabaseConnector
 from .connectors.database.json import JsonFileDatabaseConnector
 from .connectors.database.models import CurrencyConversionPLN
+from .connectors.database.sqlite_connector import SQLiteDatabaseConnector
+from .connectors.local.local_currency_data_provider import LocalCurrencyDataProvider
+from .connectors.nbp.nbp_currency_data_provider import NBPCurrencyDataProvider
+from .currency_converter import PriceCurrencyConverterToPLN
+from .logger import LOGGER
 
 
 def format_input_str(input_str: str) -> str:
@@ -58,11 +61,10 @@ def main():
     try:
         env = handle_env_param()
 
-        # TODO: handling invalid input
         LOGGER.info("Job started!")
         source = handle_source_input()
 
-        currency_data_provider = CURRENCY_DATA_PROVIDER[source]()
+        currency_data_provider: CurrencyDataProvider = CURRENCY_DATA_PROVIDER[source]()
 
         currency_data = currency_data_provider.fetch_currencies_data()
 
@@ -79,7 +81,7 @@ def main():
             currency, currency_value
         )
 
-        database = DB_CONNECTOR[env]()
+        database: DatabaseConnector = DB_CONNECTOR[env]()
 
         new_entity = CurrencyConversionPLN(
             currency=converted_price_pln.currency,

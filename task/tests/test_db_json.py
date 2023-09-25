@@ -1,8 +1,10 @@
 import os
 from unittest.mock import patch
-from .base import TestBaseCase
+
 from task.connectors.database.json import JsonFileDatabaseConnector
 from task.connectors.database.models import CurrencyConversionPLN
+
+from .base import TestBaseCase
 
 TEST_JSON_DATABASE_NAME = "test_database.json"
 

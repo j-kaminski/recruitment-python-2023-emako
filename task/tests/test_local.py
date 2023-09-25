@@ -1,7 +1,9 @@
 from unittest.mock import Mock, patch
-from .base import TestBaseCase
-from task.connectors.local.local_currency_data_provider import LocalCurrencyDataProvider
+
 from task.connectors.currency_data_provider import CurrencyData
+from task.connectors.local.local_currency_data_provider import LocalCurrencyDataProvider
+
+from .base import TestBaseCase
 
 
 def mocked_local_data():

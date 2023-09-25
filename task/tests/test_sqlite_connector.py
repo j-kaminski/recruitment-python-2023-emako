@@ -1,8 +1,10 @@
 import os
-from .base import TestBaseCase
-from task.connectors.database.sqlite_connector import SQLiteDatabaseConnector
-from task.connectors.database.models import CurrencyConversionPLN
 from unittest.mock import patch
+
+from task.connectors.database.models import CurrencyConversionPLN
+from task.connectors.database.sqlite_connector import SQLiteDatabaseConnector
+
+from .base import TestBaseCase
 
 TEST_SQLITE_DATABASE_NAME = "test_database.db"
 

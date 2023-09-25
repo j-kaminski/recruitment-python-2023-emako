@@ -1,5 +1,7 @@
 from dataclasses import dataclass
+
 from task.logger import LOGGER
+
 from .connectors.currency_data_provider import CurrencyDataProvider
 
 

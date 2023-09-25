@@ -1,6 +1,7 @@
-from task.logger import LOGGER
 from unittest import TestCase
 from unittest.mock import patch
+
+from task.logger import LOGGER
 
 
 class TestBaseCase(TestCase):

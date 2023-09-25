@@ -1,6 +1,7 @@
 import requests
-from task.logger import LOGGER
+
 from task.config import NBP_API_URL
+from task.logger import LOGGER
 
 
 def get_table_rate():

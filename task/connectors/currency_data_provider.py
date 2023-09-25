@@ -1,8 +1,6 @@
 from abc import ABC, abstractmethod
-from decimal import Decimal
-
-
 from dataclasses import dataclass
+from decimal import Decimal
 
 
 @dataclass(frozen=True)

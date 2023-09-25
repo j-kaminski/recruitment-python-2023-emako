@@ -1,5 +1,6 @@
-from task.logger import LOGGER
 from task.connectors.currency_data_provider import CurrencyData, CurrencyDataProvider
+from task.logger import LOGGER
+
 from .endpoints import get_table_rate
 
 

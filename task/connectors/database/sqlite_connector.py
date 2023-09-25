@@ -1,11 +1,12 @@
-import logging
 from typing import Optional
 
-from task.logger import LOGGER
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from task.config import SQLITE_DATABASE_NAME
 from task.connectors.database.base import DatabaseConnector
+from task.logger import LOGGER
+
 from .models import Base, CurrencyConversionPLN
 
 

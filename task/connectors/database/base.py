@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from typing import Optional
+
 from .models import CurrencyConversionPLN
 
 
@@ -16,5 +18,5 @@ class DatabaseConnector(ABC):
         pass
 
     @abstractmethod
-    def get_by_id(self) -> CurrencyConversionPLN:
+    def get_by_id(self, entity_id: int) -> Optional[CurrencyConversionPLN]:
         pass

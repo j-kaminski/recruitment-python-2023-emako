@@ -1,7 +1,9 @@
 from unittest.mock import Mock, patch
-from .base import TestBaseCase
-from task.connectors.nbp.nbp_currency_data_provider import NBPCurrencyDataProvider
+
 from task.connectors.currency_data_provider import CurrencyData
+from task.connectors.nbp.nbp_currency_data_provider import NBPCurrencyDataProvider
+
+from .base import TestBaseCase
 
 
 def mocked_get_table_a():
@@ -32,6 +34,7 @@ def mocked_get_table_a_invalid_format():
         }
     ]
     return mock_response
+
 
 def mocked_get_table_a_error_status_code():
     mock_response = Mock()
@@ -71,6 +74,9 @@ class TestNBP(TestBaseCase):
         mock_get.assert_called_once()
         self.assertEqual(data, [])
 
-    # TODD
-    def test_load_nbp_currency_data_with_connection_error(self):
-        pass
+    @patch("requests.get", return_value=mocked_get_table_a_error_status_code())
+    def test_load_nbp_currency_data_with_error(self, mock_get):
+        nbp_currency_data_provider = NBPCurrencyDataProvider()
+        data = nbp_currency_data_provider.fetch_currencies_data()
+        mock_get.assert_called_once()
+        self.assertEqual(data, [])

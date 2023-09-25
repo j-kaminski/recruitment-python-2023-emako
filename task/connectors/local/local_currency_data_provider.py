@@ -1,7 +1,8 @@
 from typing import Optional
-from task.connectors.currency_data_provider import CurrencyDataProvider, CurrencyData
-from task.connectors.common import read_json_file
+
 from task.config import LOCAL_SOURCE_PATH
+from task.connectors.common import read_json_file
+from task.connectors.currency_data_provider import CurrencyData, CurrencyDataProvider
 from task.logger import LOGGER
 
 

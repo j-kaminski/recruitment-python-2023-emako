@@ -12,12 +12,5 @@
         "rate": 4,
         "date": "2021-01-01",
         "price_in_pln": 20
-    },
-    "3": {
-        "id": 3,
-        "currency": "eur",
-        "rate": 4.15,
-        "date": "2023-09-01",
-        "price_in_pln": 8.3
     }
 }

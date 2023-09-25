@@ -1,4 +1,4 @@
-from task.connectors.currency_data_provider import CurrencyDataProvider, CurrencyData
+from task.connectors.currency_data_provider import CurrencyData, CurrencyDataProvider
 
 
 class DummyCurrencyDataProvider(CurrencyDataProvider):
